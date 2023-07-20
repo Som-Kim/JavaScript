@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+<style>
+  span {
+    color: blue; 
+  }
+
+</style>
+<head>
+    <meta charset="utf-8">
+    <title>join, split, querySelector practice</title>
+</head>
+
+<body>
+  <h1>join, split, querySelector practice</h1>
+  <form id="form">
+    <input type="text" id="input">
+    <button>입력</button>
+  </form>
+  <p>1. 1부터 위에서 입력한 숫자가 담긴 배열 answer: <span id="answer"></span> </p>
+  <p>2. answer를 문자열로 변환하고 그 값을 strAnswer에 입력: <span id="strAnswer"></span></p>
+  <p>3. strAnswer를 다시 배열로 변환하고 그 값을 newAnswer에 입력: <span id="newAnswer"></span></p>
+  <p>4. 이때, newAnswer의 요소들의 타입은 string인데 이들의 타입을 number로 변경하기 <br> 
+    (1) for문 사용하기 => numAnswer1: <span id="numAnswer1"></span><br>
+    (2) while문 => numAnswer2: <span id="numAnswer2"></span><br>
+  </p>
+
+<script>
+  const $form = document.querySelector('#form');
+  const $input = document.querySelector('#input');
+  const $answer = document.querySelector('#answer');
+  const $strAnswer = document.querySelector('#strAnswer');
+  const $newAnswer = document.querySelector('#newAnswer');
+  const $numAnswer1 = document.querySelector('#numAnswer1');
+  const $numAnswer2 = document.querySelector('#numAnswer2');
+
+  function all(value) {
+    //1.
+    const answer = [];
+    for (n = 0; n < value; n += 1) {
+      answer.push(n + 1);
+    };
+    $answer.textContent = answer + " / 배열 요소 타입: "+ typeof answer[0];
+
+    //2.
+    const strAnswer = answer.join('');
+    $strAnswer.textContent = strAnswer + " / 배열 요소 타입: "+ typeof strAnswer[0];
+
+    //3.
+    const newAnswer = strAnswer.split('');
+    $newAnswer.textContent = newAnswer + " / 배열 요소 타입: "+ typeof newAnswer[0];
+    // console에서 읽을 때 1번의 것은 숫자, 5번의 것은 문자열인데, 화면상에서는 차이가 안남. 콘솔에서만 차이가 남.
+
+    //4.
+    //var1. for문
+    const numAnswer1 = [];
+    for (n = 0; n < newAnswer.length; n += 1){
+      numAnswer1.push(Number(newAnswer[n]));
+    };
+    $numAnswer1.textContent = numAnswer1 + " / 배열 요소 타입: "+ typeof numAnswer1[0];
+
+    //var2. while문
+    const numAnswer2 = [];
+    //1차 시도: 작동은 하지만 newAnswer이 사라지므로 newAnswer 재사용 불가 
+    // while(newAnswer.length > 0){
+    //   numAnswer2.push(Number(newAnswer[0]))
+    //   newAnswer.shift();
+    // };
+    // 2차시도. 굿!
+    var n = 0;
+    while(newAnswer.length !== n){
+      numAnswer2.push(Number(newAnswer[n]));
+      n += 1;
+    };
+    $numAnswer2.textContent = numAnswer2 + " / 배열 요소 타입: "+ typeof numAnswer2[0];
+
+    console.log(answer);
+    console.log(strAnswer);
+    console.log(newAnswer);
+    console.log(numAnswer1);
+    console.log(numAnswer2);
+  }
+
+  $form.addEventListener('submit', (event) => {
+    event.preventDefault();
+    const value = $input.value;
+    console.log(value + " / type: " + typeof value);
+    all(Number(value));
+  });
+
+</script>
+</body>
+</html>
